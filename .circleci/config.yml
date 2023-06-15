@@ -82,9 +82,7 @@ workflows:
     jobs:
       - install_testcafe
       - smoke_tests:
-          name: smoke_tests_<< pipeline.parameters.env >>
+          name: smoke_tests
           context: BS
-          env: << pipeline.parameters.env >>
-          browsers: << pipeline.parameters.browsers >>
           requires:
             - install_testcafe
