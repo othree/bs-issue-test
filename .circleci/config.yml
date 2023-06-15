@@ -89,24 +89,24 @@ workflows:
       - smoke_test:
           name: smoke_test_iphone
           context: BS
-          browsers: "iphone"
+          browser: "iphone"
           requires:
             - install_testcafe
       # - smoke_test:
       #     name: smoke_test_android
       #     context: BS
-      #     browsers: "android"
+      #     browser: "android"
       #     requires:
       #       - install_testcafe
       - smoke_test:
           name: smoke_test_chrome
           context: BS
-          browsers: "chrome"
+          browser: "chrome"
           requires:
             - install_testcafe
       # - smoke_test:
       #     name: smoke_test_safari
       #     context: BS
-      #     browsers: "safari"
+      #     browser: "safari"
       #     requires:
       #       - install_testcafe
