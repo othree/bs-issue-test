@@ -4,7 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "smoke:desktop": "testcafe \"browserstack:chrome@97.0:Windows 11\" ./e2e",
+    "smoke:mobile": "testcafe \"browserstack:iPhone 13 Pro@15\" ./e2e",
+    "smoke": "yarn smoke:mobile && smoke:desktop"
   },
   "repository": {
     "type": "git",
