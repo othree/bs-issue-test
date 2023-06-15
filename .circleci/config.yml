@@ -83,7 +83,7 @@ workflows:
       - install_testcafe
       - smoke_tests:
           name: smoke_tests_<< pipeline.parameters.env >>
-          context: BROWSER_STACK
+          context: BS
           env: << pipeline.parameters.env >>
           browsers: << pipeline.parameters.browsers >>
           requires:
