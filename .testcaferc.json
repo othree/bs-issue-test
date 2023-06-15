@@ -1,0 +1,25 @@
+{
+  "color": true,
+  "skipJsErrors": true,
+  "skipUncaughtErrors": true,
+  "pageLoadTimeout": 40000,
+  "browserInitTimeout": 300000,
+  "quarantineMode": true,
+  "retryTestPages": true,
+  "hostname": "localhost",
+  "concurrency": 1,
+  "reporter": [
+    {
+      "name": "spec"
+    },
+    {
+      "name": "xunit",
+      "output": "tmp/test-results/report.xml"
+    }
+  ],
+  "screenshots": {
+    "takeOnFails": true,
+    "thumbnails": false,
+    "path": "tmp/screenshots/"
+  }
+}
