@@ -49,8 +49,13 @@ jobs:
           paths:
             - node_modules
 
-  smoke_tests:
+  smoke_test:
     executor: default
+    parameters:
+      browser:
+        default: "chrome"
+        type: enum
+        enum: ["chrome", "safari", "iphone", "android"]
     steps:
       - checkout
       - attach_workspace:
@@ -68,7 +73,7 @@ jobs:
             echo 'export BROWSERSTACK_TIMEZONE="Tokyo"' >> $BASH_ENV;
             source $BASH_ENV
 
-            yarn smoke
+            yarn smoke:<< parameters.browser >>
 
 workflows:
   version: 2
@@ -81,8 +86,27 @@ workflows:
 
     jobs:
       - install_testcafe
-      - smoke_tests:
-          name: smoke_tests
+      - smoke_test:
+          name: smoke_test_iphone
           context: BS
+          browsers: "iphone"
           requires:
             - install_testcafe
+      # - smoke_test:
+      #     name: smoke_test_android
+      #     context: BS
+      #     browsers: "android"
+      #     requires:
+      #       - install_testcafe
+      - smoke_test:
+          name: smoke_test_chrome
+          context: BS
+          browsers: "chrome"
+          requires:
+            - install_testcafe
+      # - smoke_test:
+      #     name: smoke_test_safari
+      #     context: BS
+      #     browsers: "safari"
+      #     requires:
+      #       - install_testcafe

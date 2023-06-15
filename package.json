@@ -5,9 +5,11 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "smoke:desktop": "testcafe \"browserstack:safari@16.3:OS X Ventura\" ./e2e",
-    "smoke:mobile": "testcafe \"browserstack:iPhone 13 Pro@15\" ./e2e",
-    "smoke": "yarn smoke:mobile && smoke:desktop"
+    "smoke:safari": "testcafe \"browserstack:safari@16.3:OS X Ventura\" ./e2e",
+    "smoke:iphone": "testcafe \"browserstack:iPhone 13 Pro@15\" ./e2e --config-file .testcaferc.mobile.json",
+    "smoke:chrome": "testcafe \"browserstack:chrome@97.0:Windows 11\" ./e2e",
+    "smoke:android": "testcafe \"browserstack:Google Pixel 5@11.0\" ./e2e --config-file .testcaferc.mobile.json",
+    "smoke": "yarn smoke:iphone && smoke:chrome"
   },
   "repository": {
     "type": "git",
