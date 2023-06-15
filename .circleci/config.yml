@@ -1,0 +1,90 @@
+version: 2.1
+
+executors:
+  default:
+    docker:
+      - image: cimg/node:16.18
+
+orbs:
+  browserstack-local: shawnlobo96/browserstack-local@1.0.0
+
+jobs:
+  install:
+    executor: default
+    steps:
+      - restore_cache:
+          keys:
+            - source-v1-{{ .Branch }}-{{ .Revision }}
+            - source-v1-{{ .Branch }}-
+            - source-v1-
+      - checkout
+      - save_cache:
+          key: source-v1-{{ .Branch }}-{{ .Revision }}
+          paths:
+            - ".git"
+      - restore_cache:
+          name: Restore Yarn Package Cache
+          keys:
+            - yarn-packages-{{ checksum "yarn.lock" }}
+      - run:
+          name: Install Dependencies
+          command: yarn install --frozen-lockfile --cache-folder ~/.cache/yarn
+      - save_cache:
+          name: Save Yarn Package Cache
+          key: yarn-packages-{{ checksum "yarn.lock" }}
+          paths:
+            - ~/.cache/yarn
+      - persist_to_workspace:
+          root: .
+          paths:
+            - node_modules
+
+  install_testcafe:
+    executor: default
+    steps:
+      - checkout
+      - run: yarn add testcafe
+      - persist_to_workspace:
+          root: .
+          paths:
+            - node_modules
+
+  smoke_tests:
+    executor: default
+    steps:
+      - checkout
+      - attach_workspace:
+          at: .
+      - run:
+          name: "Start Test"
+          environment:
+            BROWSERSTACK_USE_AUTOMATE: "1"
+            BROWSERSTACK_PROJECT_NAME: "Checkout"
+            BROWSERSTACK_CONSOLE: "warnings"
+          command: |
+            set -euxo pipefail
+            echo 'export BROWSERSTACK_BUILD_ID="${CIRCLE_USERNAME} test Checkout"' >> $BASH_ENV;
+            echo 'export BROWSERSTACK_TEST_RUN_NAME="Checkout tests"' >> $BASH_ENV;
+            echo 'export BROWSERSTACK_TIMEZONE="Tokyo"' >> $BASH_ENV;
+            source $BASH_ENV
+
+            yarn smoke
+
+workflows:
+  version: 2
+
+  # Run e2e tests on remote server checkout.smartpay.(re | co)
+  health-check:
+    when:
+      and:
+        - equal: [master, << pipeline.git.branch >>]
+
+    jobs:
+      - install_testcafe
+      - smoke_tests:
+          name: smoke_tests_<< pipeline.parameters.env >>
+          context: BROWSER_STACK
+          env: << pipeline.parameters.env >>
+          browsers: << pipeline.parameters.browsers >>
+          requires:
+            - install_testcafe

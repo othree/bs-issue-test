@@ -1,0 +1,25 @@
+{
+  "name": "bs-issue-test",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/othree/bs-issue-test.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/othree/bs-issue-test/issues"
+  },
+  "homepage": "https://github.com/othree/bs-issue-test#readme",
+  "dependencies": {
+    "axios": "^1.4.0",
+    "testcafe": "^2.6.2",
+    "testcafe-browser-provider-browserstack": "^1.15.0",
+    "ua-parser-js": "^1.0.35"
+  }
+}
