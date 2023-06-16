@@ -66,6 +66,7 @@ jobs:
             BROWSERSTACK_USE_AUTOMATE: "1"
             BROWSERSTACK_PROJECT_NAME: "Checkout"
             BROWSERSTACK_CONSOLE: "warnings"
+            BROWSERSTACK_NETWORK_LOGS: "true"
           command: |
             set -euxo pipefail
             echo 'export BROWSERSTACK_BUILD_ID="${CIRCLE_USERNAME} test Checkout"' >> $BASH_ENV;
